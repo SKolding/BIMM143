@@ -1,0 +1,44 @@
+---
+title: "Class 12"
+author: "Sabrina Koldinger (A16368238)"
+format: html
+editor: visual
+---
+
+# Class 12 
+
+To find the proportion of people with Mexican Ancestry in LA that are homozygous for the G SNP, we need to import the data and analyze it. 
+Data from: https://useast.ensembl.org/Homo_sapiens/Variation/Sample?db=core;r=17:39894595-39895595;v=rs8067378;vdb=variation;vf=959672880#373531_tablePanel 
+
+
+```{r}
+mxl = read.csv("MXL_SNP_Data.csv")
+head(mxl)
+```
+```{r}
+table(mxl$Genotype..forward.strand.)
+```
+
+```{r}
+table(mxl$Genotype..forward.strand.)/nrow(mxl)
+```
+
+Now for GBR:
+
+```{r}
+gbr= read.csv("GBR_SNP_Data.csv")
+head(gbr)
+```
+
+```{r}
+table(gbr$Genotype..forward.strand.)/nrow(gbr)
+```
+
+This variant is more frequent in the GBR pop than MXL pop. 
+
+
+
+
+
+
+
