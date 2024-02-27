@@ -1,0 +1,126 @@
+---
+title: "Class 5 Data Visualization with ggplot"
+author: "Sabrina Koldinger (PID: A16368238)"
+format: pdf
+---
+
+#Graphics systems in R
+
+There are many graphic systems in R for making plots and figures.
+We have already played a little with **"base R"**graphics and the `plot()` function. 
+
+Today we will start learning about a popular graphics package called `ggplot2()`
+This is an add on package- we need to install it. We will us the `install.packages()` function to do so. 
+
+```{r}
+plot(cars)
+```
+
+Before I can use the functions from a package I have to load up the package from my "library". We use the `library(ggplot)` command to load it up.
+```{r}
+library(ggplot2)
+ggplot(cars)
+```
+
+Every ggplot needs at least 3 parts to work:
+- Data (the numbers that will do into your plot)
+- aes (aesthetics- how the columns of data map to the plot aesthetics)
+- geoms ( how the plot actually looks points, bars, lines,...)
+
+
+
+```{r}
+ggplot(cars)+ aes(x=speed, y=dist)+geom_point()
+```
+
+For simple plots ggplot is more verbose- it takes more code, than a base R plot. 
+
+Add some more layers to our ggplot
+```{r}
+ggplot(cars)+ aes(x=speed, y=dist)+ geom_point()+ geom_smooth(method="lm", se=FALSE)+ labs(title="Stopping Distance of Old Cars", subtitle="A sample plot")+theme_bw()
+
+```
+
+
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+```
+
+
+
+```{r}
+nrow(genes)
+```
+
+
+```{r}
+ncol(genes)
+```
+
+```{r}
+table(genes$State)
+127/5196
+
+```
+```{r}
+ggplot(genes)+aes(x=Condition1, y=Condition2)+ geom_point()
+```
+
+```{r}
+p= ggplot(genes)+aes(x=Condition1, y=Condition2, col=State)+ geom_point()
+```
+
+```{r}
+p+scale_color_manual(values=c("blue","grey","red"))
+```
+
+```{r}
+p+scale_color_manual(values=c("blue","grey","red"))+ labs(title="Gene Expression Changes Upon Drug Treatment")+ xlab("Control(no drug)")+ylab("Drug Treatment")
+```
+
+```{r}
+# File location online
+url <- "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"
+gapminder <- read.delim(url)
+library(gapminder)
+```
+
+
+```{r}
+# install.packages("dplyr")  ## un-comment to install if needed
+library(dplyr)
+gapminder_2007 <- gapminder %>% filter(year==2007)
+```
+
+
+```{r}
+ggplot(gapminder_2007)+aes(x=gdpPercap, y=lifeExp)+ geom_point(alpha=0.5)
+```
+
+
+```{r}
+ggplot(gapminder_2007)+aes(x=gdpPercap, y=lifeExp, col=continent, size=pop)+ geom_point(alpha=0.5)
+```
+
+```{r}
+ggplot(gapminder_2007)+aes(x=gdpPercap, y=lifeExp, col=pop)+ geom_point(alpha=0.8)
+
+```
+
+```{r}
+ggplot(gapminder_2007)+aes(x=gdpPercap, y=lifeExp, size=pop)+ geom_point(alpha=0.5)
+
+```
+
+```{r}
+ggplot(gapminder_2007)+aes(x=gdpPercap, y=lifeExp, size=pop)+ geom_point(alpha=0.5)+ scale_size_area(max_size = 10)
+```
+
+```{r}
+gapminder_1957 <- gapminder %>% filter(year==1957)
+ggplot(gapminder_1957)+aes(x=gdpPercap, y=lifeExp, col=continent, size=pop)+ geom_point(alpha=0.7)+ scale_size_area(max_size = 15)
+```
+
