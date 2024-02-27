@@ -1,0 +1,108 @@
+---
+title: "Class10"
+author: "Sabrina Koldinger (A16368238)"
+format: pdf
+editor: visual
+---
+
+
+# Intro to the RCSB Protein Data Bank (PDB)
+
+Here we examin the size and composition of the main database of biomolecular structures- the PDB. 
+
+```{r}
+pdbdata= read.csv("Data_Export_Summary.csv", row.names = 1)
+pdbdata
+```
+
+
+### Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+The data has commas, which may be a problem... treats them like characters. 
+```{r}
+pdbdata$X.ray
+```
+
+```{r}
+as.numeric(pdbdata$X.ray)
+```
+We could use `gsub()`
+```{r}
+as.numeric(gsub(",","", pdbdata$X.ray))
+```
+
+```{r}
+x=pdbdata$X.ray
+commasum= function(x){sum(as.numeric(gsub(",","", x)))}
+commasum(pdbdata$X.ray)
+```
+
+```{r}
+totals=apply(pdbdata, 2, commasum)
+totals
+```
+
+
+```{r}
+totals/totals["Total"]
+```
+
+About 84.5% of structures are solved by Xray and 8.7% is solved by EM.
+
+
+### Q2: What proportion of structures in the PDB are protein?
+
+```{r}
+proteintotal= as.numeric(gsub(",","", pdbdata[1,7]))
+proteintotal/totals["Total"]
+```
+Proteins are about 86.7% (or 0.867) of the total structures in the database. 
+
+# Visualizing Protein Structure
+We will learn the basics of Mol* (mol-star)
+We will play with 1HSG.
+
+![1HSG](1HSG.png)
+
+![HIV-Pr with inhibitor and the water 308 and ASP 25 molecules highlighted in green](1HSGwASP25andwater.png)
+
+# Back to R and working with PDB structures
+Predict the dynamics (flexibility) of an important protein:
+
+```{r}
+library(bio3d)
+hiv= read.pdb("1hsg")
+hiv
+```
+
+```{r}
+head(hiv$atom)
+```
+```{r}
+pdbseq(hiv)
+```
+
+Here we will do a Normal Mode Analysis(NMA) to predict functional motions of a kinase.
+```{r}
+adk= read.pdb("6s36")
+adk
+```
+
+
+```{r}
+modes= nma(adk)
+plot(modes)
+```
+
+Make a "movie" called a trajectory of the predicted motions.
+
+```{r}
+mktrj(modes, file="adk_m7.pdb")
+```
+
+Then can open in Mol*
+
+
+
+
+
+
