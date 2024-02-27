@@ -1,0 +1,190 @@
+---
+title: "Class 7"
+author: "Sabrina Koldinger (A16368238)"
+format: pdf
+editor: visual
+---
+
+# Class 7 Clustering methods
+
+The broad goal here is to find groupings in your input data.
+
+## kmeans
+
+First, make some data to cluster.
+
+```{r}
+x=rnorm(1000)
+hist(x)
+```
+
+MAke a vector of length 60 with 30 points centered at -3 and 30 points centered at 3.
+
+```{r}
+tmp=c(rnorm(30, mean = -3), rnorm(30, mean = 3))
+tmp
+```
+
+I will now make a small x and y data set with 2 groups of points.
+
+```{r}
+x= cbind(x=tmp, y=rev(tmp))
+plot(x)
+```
+
+```{r}
+k=kmeans(x,centers=2)
+k
+```
+
+> Question: from your result object `k` how many point are in each cluster?
+
+```{r}
+k$size
+```
+
+> Question: What "component" of your result object details the cluster membership?
+
+```{r}
+k$cluster
+```
+
+Question: what about cluster center?
+```{r}
+k$centers
+```
+
+> Plot clusters
+
+```{r}
+plot(x, col=k$cluster)
+points(k$centers, col="blue", pch=15,cex=2)
+```
+We can cluster into 4 groups
+
+```{r}
+k4=kmeans(x,centers=4)
+k4
+
+plot(x, col=k4$cluster)
+```
+
+A big limitation of kmeans is that it does what you ask even if the clusters are silly. 
+
+
+## hclust
+
+The main base R function for Hierarchical clustering is `hclust`. unlike `kmeans`, you can not just pass it your data as an input. You need to calculate a distance matrix. 
+
+```{r}
+d=dist(x)
+hc=hclust(d)
+hc
+```
+Use `plot()` 
+```{r}
+plot(hc)
+abline(h=10, col="red")
+```
+
+To make the "cut" and get our cluster membership vector we can use the `cutree()` function.  Make a plot of our data colored by hclust results. 
+
+```{r}
+groups=cutree(hc, h=10)
+groups
+plot(x, col=groups)
+```
+
+## PCA- Principal Component Analysis
+Here we will do Principal Component Analysis (PCA) on some food data from the UK. 
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url, row.names = 1)
+x
+```
+
+```{r}
+#dont do this
+#rownames(x)=x[,1]
+#x=x[,-1]
+```
+
+
+Q1. How many rows and columns are in your new data frame named x? What R functions could you use to answer this questions?
+```{r}
+nrow(x)
+ncol(x)
+```
+17 rows and 4 columns
+
+Q2. Which approach to solving the ‘row-names problem’ mentioned above do you prefer and why? Is one approach more robust than another under certain circumstances?
+
+It is more effective to use the `row.names=1` since it will not end up removing columns of data if run multiple times. 
+
+
+Q3: Changing what optional argument in the above barplot() function results in the following plot?
+```{r}
+barplot(as.matrix(x), beside=T, col=rainbow(nrow(x)))
+barplot(as.matrix(x), beside=F, col=rainbow(nrow(x)))
+```
+
+```{r}
+pairs(x, col=rainbow(10), pch=16)
+```
+
+
+
+
+## PCA to the rescue
+ The main "base" R function for PCA is called `prcomp()`.
+
+```{r}
+pca=prcomp(t(x))
+summary(pca)
+```
+
+How much variance is captured in 2 PCs.
+96.5%
+
+To make our main "PC score plot" or PC1 vs PC2 plot", "PC plot", or " ordination plot".
+```{r}
+attributes(pca)
+```
+
+We are after the `pca$x` result component to make our main PCA plot. 
+```{r}
+pca$x
+```
+```{r}
+mycols=c("orange", "red", "blue", "darkgreen")
+plot(pca$x[,1], pca$x[,2], col=mycols, pch=16, xlab="PC1(67.4%)", ylab="PC2(29%)")
+```
+
+Another important result from PCA is how the original variables (in this case foods) contribute to the PCs. 
+This is contained in the `pca$rotation` object- people often call this the "loadings" or "contributions" to the PCs. 
+
+```{r}
+pca$rotation
+```
+We can make a plot along PC1
+```{r}
+library(ggplot2)
+contrib= as.data.frame(pca$rotation)
+ggplot(contrib)+ aes(PC1, rownames(contrib))+geom_col()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
