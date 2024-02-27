@@ -1,2 +1,2 @@
 # BIMM143
-Bioinformatics lab work 
+Bioinformatics lab class work at UCSD
