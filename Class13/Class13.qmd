@@ -1,0 +1,283 @@
+---
+title: "Class 13"
+author: "Sabrina Koldinger (A16368238)"
+format: pdf
+editor: visual
+---
+
+# Class 13
+In today's class we will explore and analyze data from a published RNA-seq experiment on smooth muscle cells of the airway treated with dexamethasone. 
+
+## Data import
+
+We have two import files
+
+```{r}
+counts <- read.csv("airway_scaledcounts.csv", row.names=1)
+metadata <-  read.csv("airway_metadata.csv")
+
+```
+
+```{r}
+head(counts)
+metadata
+```
+
+
+## Data explore
+
+Q1. How many genes are in this dataset? 
+```{r}
+nrow(counts)
+```
+There are 38694 genes.
+
+Q2. How many ‘control’ cell lines do we have?
+```{r}
+table(metadata$dex)
+```
+There are 4 control cell lines. 
+
+## Toy differential gene expression
+Time to analyze.
+
+We have 4 control and 4 treated samples/experiments/cloumns. Make sure the metadata id column matches the columns in our count data. 
+
+```{r}
+colnames(counts)
+```
+
+```{r}
+metadata$id==colnames(counts)
+```
+
+To check that all elements of a vector are TRUE we can use the `all()` fxn. 
+
+```{r}
+all(metadata$id==colnames(counts))
+```
+
+To start I will calculate the means for the control and treated genes and compare them,
+
+_ Identify and extract the `control` columns
+- Determine the mean value for each gene.
+
+```{r}
+controls= metadata$dex=="control"
+controlonly=counts[, controls]
+control.mean=apply(controlonly, 1, mean)
+head(control.mean)
+```
+
+```{r}
+treateds= metadata$dex=="treated"
+treatedonly=counts[,treateds]
+treated.mean=apply(treatedonly, 1, mean)
+head(treated.mean)
+```
+
+```{r}
+mean.counts= data.frame(control.mean, treated.mean)
+```
+
+```{r}
+plot(mean.counts)
+```
+
+Data needs to be transformed to see the data better. 
+
+
+```{r}
+plot(mean.counts, log="xy")
+```
+
+
+I want to compare the treated and control values here and will use fold change in log2 units to do this. log2(treated/control)
+
+```{r}
+log2fc=log2(mean.counts$treated.mean/mean.counts$control.mean)
+mean.counts$log2fc=log2fc
+```
+
+
+No difference in expression levels results in log2 function equaling zero. If the treated is upregulated and is expressed more: twice as much will equal 1 from a log 2 function. It will be a negative result if the treated is down regulated
+
+A common rule of thumb cut-off for calling a gene "differentially expressed" is a log2 fold change value of either >+2 or <-2 for "upregulated" and "downregulated" respectively. 
+
+```{r}
+head(mean.counts)
+```
+
+
+First we need to remove zero count genes as we can't say anything about these genes anyway. 
+```{r}
+to.rm.ind=rowSums(mean.counts[,1:2]==0)> 0
+mycounts= mean.counts[!to.rm.ind,]
+```
+
+How many genes do we have that we can use for data analysis? 
+```{r}
+nrow(mycounts)
+```
+21817 genes
+
+Q8. Using the up.ind vector above can you determine how many up regulated genes we have at the greater than 2 fc level? 
+```{r}
+up.ind <- mycounts$log2fc > 2
+sum(up.ind)
+```
+250 genes were up regulated at a greater than 2 fc level.
+
+Q9. Using the down.ind vector above can you determine how many down regulated genes we have at the greater than 2 fc level? 
+```{r}
+down.ind <- mycounts$log2fc < (-2)
+sum(down.ind)
+```
+367 gene were down regulated. 
+
+Q10. Do you trust these results? Why or why not?
+No, we don't know if these results are statistically significant. 
+
+
+## DESeq analysis
+Do it properly with the help of DESeq2 package.
+```{r}
+#| message: false
+library(DESeq2)
+```
+
+We have to use a specific data object for working with DESeq.
+
+```{r}
+dds= DESeqDataSetFromMatrix(countData = counts, colData = metadata, design= ~dex)
+```
+
+Run our main analysis with `DESeq()` function.
+```{r}
+dds= DESeq(dds)
+```
+TO get the results out of our 'dds" object we can use the `results()` fxn from DESeq.
+
+```{r}
+res= results(dds)
+head(res)
+```
+
+## Data visualization/ Volcano Plot
+A very common and useful summary results figure from this type of analysis is called a volcano plot. Plot log2fc vs. P-value. We usd the `padj` the adjusted P-valuse for multiple testing. 
+
+
+```{r}
+plot(res$log2FoldChange, -log(res$padj))
+```
+
+```{r}
+plot( res$log2FoldChange,  -log(res$padj), 
+      xlab="Log2 FoldChange ",
+      ylab="-Log of adjusted P-value")
+```
+
+
+
+Add color
+```{r}
+mycols= rep("gray", nrow(res))
+mycols[abs(res$log2FoldChange) > 2]="blue"
+mycols[abs(res$log2FoldChange) < -2]="blue"
+
+plot( res$log2FoldChange,  -log(res$padj), 
+      xlab="Log2 FoldChange ",
+      ylab="-Log of P-value", col=mycols, abline(v=c(-2,2)))
+```
+
+## Adding annotation data
+Here we load the AnnotationDbi package and the annotation data package for humans org.Hs.eg.db.
+
+```{r}
+library("AnnotationDbi")
+library("org.Hs.eg.db")
+```
+
+```{r}
+columns(org.Hs.eg.db)
+```
+
+
+```{r}
+res$symbol=mapIds(org.Hs.eg.db,
+                     keys=row.names(res), 
+                     keytype="ENSEMBL", 
+                     column="SYMBOL", 
+                     multiVals="first")
+
+head(res)
+```
+
+Also want entrez IDs.
+
+```{r}
+res$entrez=mapIds(org.Hs.eg.db,
+                     keys=row.names(res), 
+                     keytype="ENSEMBL", 
+                     column="ENTREZID", 
+                     multiVals="first")
+head(res)
+```
+Add genename column
+
+```{r}
+res$name=mapIds(org.Hs.eg.db,
+                     keys=row.names(res), 
+                     keytype="ENSEMBL", 
+                     column="GENENAME", 
+                     multiVals="first")
+
+head(res)
+```
+
+## Pathway analysis
+Now with the necessary annotation data, we can use different databases that use the IDs.
+
+The `gage` packacge is used to do geneset analysis(or pathway analysis, geneset enrichment, overlap analysis).
+```{r}
+library(pathview)
+library(gage)
+library(gageData)
+
+data(kegg.sets.hs)
+```
+We will use KEGG first
+```{r}
+head(kegg.sets.hs, 2)
+```
+The main `gage()` function requires a named vector of fold changes, where the names of the values are the Entrez gene IDs.
+```{r}
+foldchange= res$log2FoldChange
+names(foldchange)= res$symbol
+head(foldchange)
+```
+
+Run the analysis
+```{r}
+keggres = gage(foldchange, gsets=kegg.sets.hs)
+```
+
+Lets lookat what is in our results here.
+```{r}
+attributes(keggres)
+```
+
+```{r}
+head(keggres$less, 3)
+```
+
+
+I can now use the returned pathway IDs from KEGG as input to the `pathview` package.
+
+```{r}
+pathview(gene.data=foldchange, pathway.id="hsa05310")
+```
+![](hsa05310.png)
+
+
+
