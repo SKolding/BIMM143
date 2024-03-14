@@ -1,0 +1,38 @@
+---
+title: "Class19"
+format: html
+editor: visual
+---
+
+
+
+```{r}
+library(bio3d)
+seq=read.fasta("A16368238_mutant_seq.fa")
+seq
+```
+```{r}
+conserv(seq)
+```
+Find specific mutations.
+```{r}
+s=which(conserv(seq)<1)
+s
+```
+
+```{r}
+seq$ali[,s]
+```
+
+
+
+
+
+
+
+Find if the mutations are clustered in a specific domain. PFAM id of domain
+```{r}
+hmmer("A16368238_mutant_seq.fa", id="PF00069")
+```
+
+
