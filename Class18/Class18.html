@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sabrina Koldinger (A16368238)">
+
+<title>Class18</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Class18_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Class18_files/libs/quarto-html/quarto.js"></script>
+<script src="Class18_files/libs/quarto-html/popper.min.js"></script>
+<script src="Class18_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Class18_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Class18_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Class18_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Class18_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Class18_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Class18_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class18</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sabrina Koldinger (A16368238) </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="class-18" class="level1">
+<h1>Class 18</h1>
+<p>Lets examine and explore Pertusis cases in the US. URL: https://www.cdc.gov/pertussis/surv-reporting/cases-by-year.html</p>
+<p>Use datapasta to scrape this data from the website into R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cdc <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Year =</span> <span class="fu">c</span>(1922L,1923L,1924L,1925L,1926L,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                                         1927L,1928L,1929L,1930L,1931L,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                                         1932L,1933L,1934L,1935L,1936L,1937L,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                                         1938L,1939L,1940L,1941L,1942L,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                                         1943L,1944L,1945L,1946L,1947L,1948L,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                                         1949L,1950L,1951L,1952L,1953L,1954L,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                                         1955L,1956L,1957L,1958L,1959L,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                                         1960L,1961L,1962L,1963L,1964L,1965L,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                         1966L,1967L,1968L,1969L,1970L,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                                         1971L,1972L,1973L,1974L,1975L,1976L,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                                         1977L,1978L,1979L,1980L,1981L,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                                         1982L,1983L,1984L,1985L,1986L,1987L,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                                         1988L,1989L,1990L,1991L,1992L,1993L,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                                         1994L,1995L,1996L,1997L,1998L,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                                         1999L,2000L,2001L,2002L,2003L,2004L,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                                         2005L,2006L,2007L,2008L,2009L,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                                         2010L,2011L,2012L,2013L,2014L,2015L,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                                         2016L,2017L,2018L,2019L,2020L,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                                         2021L),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">Cases =</span> <span class="fu">c</span>(<span class="dv">107473</span>,<span class="dv">164191</span>,<span class="dv">165418</span>,<span class="dv">152003</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">202210</span>,<span class="dv">181411</span>,<span class="dv">161799</span>,<span class="dv">197371</span>,<span class="dv">166914</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">172559</span>,<span class="dv">215343</span>,<span class="dv">179135</span>,<span class="dv">265269</span>,<span class="dv">180518</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">147237</span>,<span class="dv">214652</span>,<span class="dv">227319</span>,<span class="dv">103188</span>,<span class="dv">183866</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">222202</span>,<span class="dv">191383</span>,<span class="dv">191890</span>,<span class="dv">109873</span>,<span class="dv">133792</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">109860</span>,<span class="dv">156517</span>,<span class="dv">74715</span>,<span class="dv">69479</span>,<span class="dv">120718</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">68687</span>,<span class="dv">45030</span>,<span class="dv">37129</span>,<span class="dv">60886</span>,<span class="dv">62786</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">31732</span>,<span class="dv">28295</span>,<span class="dv">32148</span>,<span class="dv">40005</span>,<span class="dv">14809</span>,<span class="dv">11468</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">17749</span>,<span class="dv">17135</span>,<span class="dv">13005</span>,<span class="dv">6799</span>,<span class="dv">7717</span>,<span class="dv">9718</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">4810</span>,<span class="dv">3285</span>,<span class="dv">4249</span>,<span class="dv">3036</span>,<span class="dv">3287</span>,<span class="dv">1759</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">2402</span>,<span class="dv">1738</span>,<span class="dv">1010</span>,<span class="dv">2177</span>,<span class="dv">2063</span>,<span class="dv">1623</span>,<span class="dv">1730</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">1248</span>,<span class="dv">1895</span>,<span class="dv">2463</span>,<span class="dv">2276</span>,<span class="dv">3589</span>,<span class="dv">4195</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">2823</span>,<span class="dv">3450</span>,<span class="dv">4157</span>,<span class="dv">4570</span>,<span class="dv">2719</span>,<span class="dv">4083</span>,<span class="dv">6586</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">4617</span>,<span class="dv">5137</span>,<span class="dv">7796</span>,<span class="dv">6564</span>,<span class="dv">7405</span>,<span class="dv">7298</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">7867</span>,<span class="dv">7580</span>,<span class="dv">9771</span>,<span class="dv">11647</span>,<span class="dv">25827</span>,<span class="dv">25616</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">15632</span>,<span class="dv">10454</span>,<span class="dv">13278</span>,<span class="dv">16858</span>,<span class="dv">27550</span>,<span class="dv">18719</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">48277</span>,<span class="dv">28639</span>,<span class="dv">32971</span>,<span class="dv">20762</span>,<span class="dv">17972</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                                         <span class="dv">18975</span>,<span class="dv">15609</span>,<span class="dv">18617</span>,<span class="dv">6124</span>,<span class="dv">2116</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cdc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year  Cases
+1 1922 107473
+2 1923 164191
+3 1924 165418
+4 1925 152003
+5 1926 202210
+6 1927 181411</code></pre>
+</div>
+</div>
+<p>Plot it as cases per year</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cdc) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Year,<span class="at">y=</span>Cases) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span><span class="dv">1947</span>, <span class="at">col=</span> <span class="st">"purple"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span><span class="dv">1992</span>, <span class="at">col=</span> <span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span><span class="dv">2020</span>, <span class="at">col=</span> <span class="st">"orange"</span>)<span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Cases of Pertussis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Import data from CMI-PB project. This database uses API to return JSON format data. We will use <code>jsonlite</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>subject<span class="ot">=</span><span class="fu">read_json</span>(<span class="st">"http://cmi-pb.org/api/subject"</span>, <span class="at">simplifyVector=</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(subject)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  subject_id infancy_vac biological_sex              ethnicity  race
+1          1          wP         Female Not Hispanic or Latino White
+2          2          wP         Female Not Hispanic or Latino White
+3          3          wP         Female                Unknown White
+4          4          wP           Male Not Hispanic or Latino Asian
+5          5          wP           Male Not Hispanic or Latino Asian
+6          6          wP         Female Not Hispanic or Latino White
+  year_of_birth date_of_boost      dataset
+1    1986-01-01    2016-09-12 2020_dataset
+2    1968-01-01    2019-01-28 2020_dataset
+3    1983-01-01    2016-10-10 2020_dataset
+4    1988-01-01    2016-08-29 2020_dataset
+5    1991-01-01    2016-08-29 2020_dataset
+6    1988-01-01    2016-10-10 2020_dataset</code></pre>
+</div>
+</div>
+<p>How many people have the wP vs aP (acellular vaccine) in the dataset?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(subject<span class="sc">$</span>infancy_vac)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+aP wP 
+60 58 </code></pre>
+</div>
+</div>
+<p>60 with aP and 58 with wP</p>
+<p>How many male or female are in the study?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(subject<span class="sc">$</span>biological_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Female   Male 
+    79     39 </code></pre>
+</div>
+</div>
+<p>79 women and 39 men</p>
+<p>Their races? both combined?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(subject<span class="sc">$</span>race)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+            American Indian/Alaska Native 
+                                        1 
+                                    Asian 
+                                       32 
+                Black or African American 
+                                        2 
+                       More Than One Race 
+                                       11 
+Native Hawaiian or Other Pacific Islander 
+                                        2 
+                  Unknown or Not Reported 
+                                       15 
+                                    White 
+                                       55 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(subject<span class="sc">$</span>race,subject<span class="sc">$</span>biological_sex )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                           
+                                            Female Male
+  American Indian/Alaska Native                  0    1
+  Asian                                         21   11
+  Black or African American                      2    0
+  More Than One Race                             9    2
+  Native Hawaiian or Other Pacific Islander      1    1
+  Unknown or Not Reported                       11    4
+  White                                         35   20</code></pre>
+</div>
+</div>
+<p>ages/ dates</p>
+<p>We can use the lubridate package to ease the pain of dealing with dates.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2024-03-07"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>() <span class="sc">-</span> <span class="fu">ymd</span>(<span class="st">"2000-01-01"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 8832 days</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>() <span class="sc">-</span> <span class="fu">ymd</span>(<span class="st">"2002-07-01"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 7920 days</code></pre>
+</div>
+</div>
+<p>What is the age of everyone on our dataset?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>subject<span class="sc">$</span>age<span class="ot">=</span><span class="fu">round</span>(<span class="fu">time_length</span>(<span class="fu">today</span>()<span class="sc">-</span> <span class="fu">ymd</span>(subject<span class="sc">$</span>year_of_birth), <span class="st">"years"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subject)<span class="sc">+</span><span class="fu">aes</span>(age, <span class="at">fill=</span>infancy_vac)<span class="sc">+</span><span class="fu">geom_histogram</span>()<span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(infancy_vac), <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>More data from CMI-PB</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>specimen<span class="ot">=</span> <span class="fu">read_json</span>(<span class="st">"http://cmi-pb.org/api/specimen"</span>, <span class="at">simplifyVector=</span><span class="cn">TRUE</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(specimen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  specimen_id subject_id actual_day_relative_to_boost
+1           1          1                           -3
+2           2          1                            1
+3           3          1                            3
+4           4          1                            7
+5           5          1                           11
+6           6          1                           32
+  planned_day_relative_to_boost specimen_type visit
+1                             0         Blood     1
+2                             1         Blood     2
+3                             3         Blood     3
+4                             7         Blood     4
+5                            14         Blood     5
+6                            30         Blood     6</code></pre>
+</div>
+</div>
+<p>Use <strong>join</strong> to combine the specimen and subject tables to make a meta table with the metadata. We use the <code>dplyr</code> functions for this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>meta<span class="ot">=</span> <span class="fu">inner_join</span>(subject, specimen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(subject_id)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(meta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  subject_id infancy_vac biological_sex              ethnicity  race
+1          1          wP         Female Not Hispanic or Latino White
+2          1          wP         Female Not Hispanic or Latino White
+3          1          wP         Female Not Hispanic or Latino White
+4          1          wP         Female Not Hispanic or Latino White
+5          1          wP         Female Not Hispanic or Latino White
+6          1          wP         Female Not Hispanic or Latino White
+  year_of_birth date_of_boost      dataset age specimen_id
+1    1986-01-01    2016-09-12 2020_dataset  38           1
+2    1986-01-01    2016-09-12 2020_dataset  38           2
+3    1986-01-01    2016-09-12 2020_dataset  38           3
+4    1986-01-01    2016-09-12 2020_dataset  38           4
+5    1986-01-01    2016-09-12 2020_dataset  38           5
+6    1986-01-01    2016-09-12 2020_dataset  38           6
+  actual_day_relative_to_boost planned_day_relative_to_boost specimen_type
+1                           -3                             0         Blood
+2                            1                             1         Blood
+3                            3                             3         Blood
+4                            7                             7         Blood
+5                           11                            14         Blood
+6                           32                            30         Blood
+  visit
+1     1
+2     2
+3     3
+4     4
+5     5
+6     6</code></pre>
+</div>
+</div>
+<p>Read in other data from CMI-PB</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>ab_titer<span class="ot">=</span> specimen<span class="ot">=</span> <span class="fu">read_json</span>(<span class="st">"http://cmi-pb.org/api/v4/plasma_ab_titer"</span>, <span class="at">simplifyVector=</span><span class="cn">TRUE</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ab_titer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  specimen_id isotype is_antigen_specific antigen        MFI MFI_normalised
+1           1     IgE               FALSE   Total 1110.21154       2.493425
+2           1     IgE               FALSE   Total 2708.91616       2.493425
+3           1     IgG                TRUE      PT   68.56614       3.736992
+4           1     IgG                TRUE     PRN  332.12718       2.602350
+5           1     IgG                TRUE     FHA 1887.12263      34.050956
+6           1     IgE                TRUE     ACT    0.10000       1.000000
+   unit lower_limit_of_detection
+1 UG/ML                 2.096133
+2 IU/ML                29.170000
+3 IU/ML                 0.530000
+4 IU/ML                 6.205949
+5 IU/ML                 4.679535
+6 IU/ML                 2.816431</code></pre>
+</div>
+</div>
+<p>Combining meta and ab_titer with <code>inner_join()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>alldata<span class="ot">=</span> <span class="fu">inner_join</span>(meta, ab_titer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(specimen_id)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(alldata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  subject_id infancy_vac biological_sex              ethnicity  race
+1          1          wP         Female Not Hispanic or Latino White
+2          1          wP         Female Not Hispanic or Latino White
+3          1          wP         Female Not Hispanic or Latino White
+4          1          wP         Female Not Hispanic or Latino White
+5          1          wP         Female Not Hispanic or Latino White
+6          1          wP         Female Not Hispanic or Latino White
+  year_of_birth date_of_boost      dataset age specimen_id
+1    1986-01-01    2016-09-12 2020_dataset  38           1
+2    1986-01-01    2016-09-12 2020_dataset  38           1
+3    1986-01-01    2016-09-12 2020_dataset  38           1
+4    1986-01-01    2016-09-12 2020_dataset  38           1
+5    1986-01-01    2016-09-12 2020_dataset  38           1
+6    1986-01-01    2016-09-12 2020_dataset  38           1
+  actual_day_relative_to_boost planned_day_relative_to_boost specimen_type
+1                           -3                             0         Blood
+2                           -3                             0         Blood
+3                           -3                             0         Blood
+4                           -3                             0         Blood
+5                           -3                             0         Blood
+6                           -3                             0         Blood
+  visit isotype is_antigen_specific antigen        MFI MFI_normalised  unit
+1     1     IgE               FALSE   Total 1110.21154       2.493425 UG/ML
+2     1     IgE               FALSE   Total 2708.91616       2.493425 IU/ML
+3     1     IgG                TRUE      PT   68.56614       3.736992 IU/ML
+4     1     IgG                TRUE     PRN  332.12718       2.602350 IU/ML
+5     1     IgG                TRUE     FHA 1887.12263      34.050956 IU/ML
+6     1     IgE                TRUE     ACT    0.10000       1.000000 IU/ML
+  lower_limit_of_detection
+1                 2.096133
+2                29.170000
+3                 0.530000
+4                 6.205949
+5                 4.679535
+6                 2.816431</code></pre>
+</div>
+</div>
+<p>Plot of MFI vs.&nbsp;antigen</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(alldata)<span class="sc">+</span> <span class="fu">aes</span>(MFI,antigen)<span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Why are certain antigens and not others very carable in their detected levels here?</p>
+<p>Is there a difference between aP and wP?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(alldata)<span class="sc">+</span> <span class="fu">aes</span>(MFI,antigen, <span class="at">col=</span>infancy_vac)<span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Not a significant difference just by looking. There are some differences but hard to tell.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(alldata<span class="sc">$</span>dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+2020_dataset 2021_dataset 2022_dataset 
+       31520         8085         2170 </code></pre>
+</div>
+</div>
+<p>Focus in on the 2021 dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>alldata<span class="fl">.21</span><span class="ot">=</span><span class="fu">filter</span>(alldata, dataset<span class="sc">==</span> <span class="st">"2021_dataset"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(alldata<span class="fl">.21</span><span class="sc">$</span>dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+2021_dataset 
+        8085 </code></pre>
+</div>
+</div>
+<p>PT antigen IgG levels</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>pt<span class="fl">.21</span><span class="ot">=</span> <span class="fu">filter</span>(alldata<span class="fl">.21</span>, isotype <span class="sc">==</span> <span class="st">"IgG"</span>,  antigen <span class="sc">==</span> <span class="st">"PT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pt<span class="fl">.21</span>) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>planned_day_relative_to_boost, <span class="at">y=</span>MFI_normalised, <span class="at">col=</span>infancy_vac) <span class="sc">+</span><span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pt<span class="fl">.21</span>) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>planned_day_relative_to_boost, <span class="at">y=</span>MFI_normalised, <span class="at">col=</span>infancy_vac) <span class="sc">+</span><span class="fu">geom_line</span>() <span class="sc">+</span><span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pt<span class="fl">.21</span>) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>planned_day_relative_to_boost, <span class="at">y=</span>MFI_normalised, <span class="at">col=</span>infancy_vac, <span class="at">group=</span>subject_id) <span class="sc">+</span><span class="fu">geom_line</span>() <span class="sc">+</span><span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Class18_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
