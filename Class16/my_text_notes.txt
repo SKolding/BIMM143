@@ -1,0 +1,23 @@
+
+
+This is a txt file.
+
+
+Instance ID
+i-031f5189059e58632
+
+Public IP address
+ 35.94.134.155
+
+
+Locate your private key file. The key used to launch this instance is BIMM143_SabrinaKoldinger.pem
+
+Run this command, if necessary, to ensure your key is not publicly viewable.
+ chmod 400 "BIMM143_SabrinaKoldinger.pem"
+
+Connect to your instance using its Public DNS:
+ ec2-35-94-134-155.us-west-2.compute.amazonaws.com
+
+Example:
+
+ ssh -i "BIMM143_SabrinaKoldinger.pem" ubuntu@ec2-35-94-134-155.us-west-2.compute.amazonaws.com

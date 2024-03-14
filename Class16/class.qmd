@@ -1,0 +1,43 @@
+---
+title: "Class16"
+format: pdf
+editor: visual
+---
+
+## Class16
+
+### Loaded data with column names
+
+```{r}
+library(readr)
+colnam= c("qseqid", "sseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore")
+tsv=read_tsv("second.x.zebrafish.tsv",col_names = colnam)
+head(tsv)
+```
+
+
+
+### Histogram of bitscore
+
+```{r}
+library(ggplot2)
+
+ggplot(tsv) +aes(x=bitscore) + geom_histogram()
+```
+
+
+### Scatterplots 
+
+```{r}
+ggplot(tsv, aes(pident, bitscore)) + geom_point(alpha=0.1) 
+```
+
+Taking into account the percent identity and the length of the alignment.
+
+```{r}
+ggplot(tsv, aes((tsv$pident * (tsv$qend - tsv$qstart)), bitscore)) + geom_point(alpha=0.1) + geom_smooth()
+
+```
+
+
+
