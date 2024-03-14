@@ -1,3 +1,3 @@
 # BIMM143
-Sabrina Koldinger
+Sabrina Koldinger's 
 Bioinformatics lab class work at UC San Diego
