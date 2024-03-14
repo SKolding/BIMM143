@@ -1,0 +1,1 @@
+ssh -i "BIMM143_SabrinaKoldinger.pem" ubuntu@ec2-35-85-227-173.us-west-2.compute.amazonaws.com
